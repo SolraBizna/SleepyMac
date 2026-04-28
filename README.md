@@ -14,8 +14,8 @@ Macs using the original 68000 processor will not receive any benefit. Macs with 
 
 ## Performance
 
-System 7 and later: SleepyMac should have no noticeable performance impact while active.
-System 6 and earlier: You may find that you get poor performance in some games. Temporarily disabling SleepyMac while playing should resolve this.
+- System 7 and later: SleepyMac should have no noticeable performance impact while active.
+- System 6 and earlier: You may find that you get poor performance in some games. Temporarily disabling SleepyMac while playing should resolve this.
 
 ## System Software
 
