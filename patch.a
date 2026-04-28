@@ -1,0 +1,1 @@
+		BLANKS ON		STRING ASISTicks EQU $016AENTRY PROC EXPORTpatch:	NOP		MOVE.L Ticks,D0		LEA prevTicks,A0		CMP.L (A0),D0		BNE.S skipstop:	MOVE SR,D1		STOP #$2000		MOVE D1,SRskip:	MOVE.L D0,(A0)out:	JMP $DEADBEEFprevTicks:DC.L 0		;; thanks jjuran!gestalt:MOVEA.L (SP)+,A0		MOVEA.L (SP)+,A1		ADDQ.L #4,SP		MOVE.L #$DEADBEEF,(A1)		CLR.W (SP)		JMP (A0)		END

@@ -1,0 +1,107 @@
+# cobbled together from CreateMake-made makefiles
+
+MakeFile		= "MakeFile"
+•MondoBuild•	= {MAKEFILE} # make it blank to avoid rebuilds when the makefile is modified
+
+ObjDir          = :Objects:
+Includes        = 
+
+Sym-68K         = -sym off
+
+AOptions        = {Includes} {Sym-68K} -model near 
+COptions        = {Includes} {Sym-68K} -model near -b -opt space -proto strict
+
+InitSrcFiles	= ∂
+				  init.c
+InitObjFiles	= ∂
+				  "{ObjDir}init.c.o" ∂
+				  "ShowINIT.a.o" # NOT in ObjDir!
+PatchSrcFiles	= ∂
+				  patch.a
+PatchObjFiles	= ∂
+				  "{ObjDir}patch.a.o"
+CdevSrcFiles	= ∂
+				  cdev.c ∂
+				  comm.c
+CdevObjFiles	= ∂
+				  "{ObjDir}comm.c.o" ∂
+				  "{ObjDir}cdev.c.o"
+
+LibFiles-68K    = ∂
+				  "{Libraries}MathLib.o" ∂
+				  "{CLibraries}StdCLib.o" ∂
+				  "{Libraries}MacRuntime.o" ∂
+				  "{Libraries}IntEnv.o" ∂
+				  "{Libraries}ToolLibs.o" ∂
+				  "{Libraries}Interface.o"
+
+.a.o  ƒ  .a  {•MondoBuild•}
+	{Asm} {depDir}{default}.a -o {targDir}{default}.a.o {AOptions}
+
+.c.o  ƒ  .c  {•MondoBuild•}
+	{C} {depDir}{default}.c -o {targDir}{default}.c.o {COptions}
+
+"SleepyMac"  ƒƒ  {InitObjFiles} {LibFiles-68K} {•MondoBuild•}
+	ILink ∂
+		-o {Targ} ∂
+		{InitObjFiles} ∂
+		{LibFiles-68K} ∂
+		{Sym-68K} ∂
+		-mf -d ∂
+		-m INIT ∂
+		-t 'cdev' ∂
+		-c 'ßlì' ∂
+		-model near ∂
+		-sg "SleepyMac" ∂
+		-rt 'INIT=-4064' ∂
+		-state rewrite ∂
+		-compact -pad 0
+	If "{Sym-68K}" =~ /-sym ≈[nNuU]≈/
+		ILinkToSYM {Targ}.INIT61472.NJ -mf -sym 3.2 -c 'sade'
+	End
+"SleepyMac"  ƒƒ  {CdevObjFiles} {LibFiles-68K} {•MondoBuild•}
+	ILink ∂
+		-o {Targ} ∂
+		{CdevObjFiles} ∂
+		{LibFiles-68K} ∂
+		{Sym-68K} ∂
+		-mf -d ∂
+		-m CDEV ∂
+		-t 'cdev' ∂
+		-c 'ßlì' ∂
+		-model near ∂
+		-sg "SleepyMac" ∂
+		-rt 'cdev=-4064' ∂
+		-state rewrite ∂
+		-compact -pad 0
+	If "{Sym-68K}" =~ /-sym ≈[nNuU]≈/
+		ILinkToSYM {Targ}.cdev61472.NJ -mf -sym 3.2 -c 'sade'
+	End
+"SleepyMac"  ƒƒ  {PatchObjFiles} {LibFiles-68K} {•MondoBuild•}
+	ILink ∂
+		-o {Targ} ∂
+		{PatchObjFiles} ∂
+		{LibFiles-68K} ∂
+		{Sym-68K} ∂
+		-mf -d ∂
+		-m ENTRY ∂
+		-t 'cdev' ∂
+		-c 'ßlì' ∂
+		-model near ∂
+		-sg "Payload" ∂
+		-rt 'PTCH=-4064' ∂
+		-state rewrite ∂
+		-compact -pad 0
+	If "{Sym-68K}" =~ /-sym ≈[nNuU]≈/
+		ILinkToSYM {Targ}.PTCH61472.NJ -mf -sym 3.2 -c 'sade'
+	End
+"SleepyMac"  ƒƒ  {ObjDir}SleepyMac.r {•MondoBuild•}
+	Rez -a -o {Targ} {ObjDir}SleepyMac.r
+	SetFile -a Bi {Targ}
+"{ObjDir}SleepyMac.r"  ƒƒ  SleepyMac.rsed
+	Derez > {Targ} SleepyMac.rsed
+
+"{ObjDir}cdev.c.o" ƒ cdev.c
+"{ObjDir}comm.c.o" ƒ comm.c
+"{ObjDir}init.c.o" ƒ init.c
+"{ObjDir}patch.a.o" ƒ patch.a
